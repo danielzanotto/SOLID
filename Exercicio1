@@ -1,0 +1,30 @@
+public class Main {
+    public static void main(String[] args) {
+        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+        // to see how IntelliJ IDEA suggests fixing it.
+        System.out.printf("Hello and welcome!");
+
+        for (int i = 1; i <= 5; i++) {
+            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
+            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
+            System.out.println("i = " + i);
+        }
+    }
+}class Relatorio {
+    // Método que viola o Open/Closed Principle (OCP) - precisa ser modificado para adicionar novos formatos
+    void gerarRelatorio(String tipo) {
+        //letra minuscula método, letra maisucula Classe (void gerarRelatori, )class Relatorio
+        if (tipo.equals("PDF")) {
+            // Lógica complexa de PDF (alta coesão dentro do método)
+        } else if (tipo.equals("HTML")) {
+            // Lógica complexa de HTML (mistura de responsabilidades)
+        }
+    }
+    //Salvamento de informação de mais de uma informação.
+    //O motivo de estar violando o O É PORQUE O FATO DE QUESTIONAR SE É PDF OU HTML JÁ ABRE INDICATIVO QUE PODE O ARQUIVO VIR de tipos diferentes o que ´pe errado no solid.
+    //o arquivo deve ser de tipo definido. PDF, HTML;
+    // Método que viola o Single Responsibility Principle (SRP) - classe tem mais de uma responsabilidade
+    void salvarNoBanco() {
+        // Lógica de BD (deveria estar em outra classe)
+    }
+}
