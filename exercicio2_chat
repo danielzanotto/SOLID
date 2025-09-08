@@ -1,0 +1,109 @@
+O código que você apresentou implementa corretamente o **padrão Singleton** em Java. Esse padrão é útil quando se deseja garantir que uma classe tenha **apenas uma instância** durante toda a execução do programa, como é o caso típico de conexões com bancos de dados, gerenciadores de logs, etc.
+
+### ✅ O que está certo no seu código:
+
+1. **Construtor privado**:
+
+   * Impede que outras classes criem novas instâncias diretamente.
+
+   ```java
+   private DatabaseConnection() {
+       System.out.println("Conexão com o banco de dados criada.");
+   }
+   ```
+
+2. **Instância estática da classe**:
+
+   * É armazenada numa variável `private static`.
+
+   ```java
+   private static DatabaseConnection instance;
+   ```
+
+3. **Método de acesso público e estático**:
+
+   * Garante a criação de uma única instância.
+
+   ```java
+   public static DatabaseConnection getInstance() {
+       if (instance == null) {
+           instance = new DatabaseConnection();
+       }
+       return instance;
+   }
+   ```
+
+4. **Teste de verificação no `main`**:
+
+   * Compara se `connection1` e `connection2` são exatamente o mesmo objeto na memória.
+
+   ```java
+   if (connection1 == connection2) {
+       System.out.println("As duas conexões são a mesma instância (Singleton confirmado).");
+   }
+   ```
+
+---
+
+### ⚠️ Melhorias sugeridas:
+
+#### 1. **Tornar o Singleton thread-safe (seguro para multithreading)**
+
+Se a aplicação for multi-threaded (como servidores web geralmente são), o Singleton atual **pode criar múltiplas instâncias**, pois duas threads podem passar pelo `if (instance == null)` ao mesmo tempo.
+
+##### Solução: Usar o `synchronized`
+
+```java
+public static synchronized DatabaseConnection getInstance() {
+    if (instance == null) {
+        instance = new DatabaseConnection();
+    }
+    return instance;
+}
+```
+
+##### Ou: Double-Checked Locking (mais eficiente)
+
+```java
+public static DatabaseConnection getInstance() {
+    if (instance == null) {
+        synchronized (DatabaseConnection.class) {
+            if (instance == null) {
+                instance = new DatabaseConnection();
+            }
+        }
+    }
+    return instance;
+}
+```
+
+#### 2. **Inicialização estática antecipada (mais simples e thread-safe por padrão)**
+
+```java
+public class DatabaseConnection {
+    private static final DatabaseConnection instance = new DatabaseConnection();
+
+    private DatabaseConnection() {
+        System.out.println("Conexão com o banco de dados criada.");
+    }
+
+    public static DatabaseConnection getInstance() {
+        return instance;
+    }
+}
+```
+
+Essa abordagem é **simples, eficiente e segura em ambientes multithread**, pois o carregamento da classe garante que a instância será criada apenas uma vez.
+
+---
+
+### ✅ Saída esperada do seu código atual:
+
+```
+Conexão com o banco de dados criada.
+As duas conexões são a mesma instância (Singleton confirmado).
+```
+
+---
+
+Se você quiser que eu demonstre uma versão thread-safe completa, ou explique os casos de uso do Singleton mais a fundo, posso te mostrar também.
